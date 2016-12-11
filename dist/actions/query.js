@@ -89,7 +89,7 @@ var watchEvent = exports.watchEvent = function watchEvent(firebase, dispatch, _r
     /* istanbul ignore next: is run by tests but doesn't show in coverage */
     q.on(e, function (snapshot) {
       var data = e === 'child_removed' ? undefined : snapshot.val();
-      var resultPath = dest || e === 'value' ? p : p + '/' + snapshot.key;
+      var resultPath = dest || e === 'value' ? p : p[p.length - 1] == "/" ? '' + p + snapshot.key : p + '/' + snapshot.key;
       var rootPath = dest || path;
 
       if (dest && e !== 'child_removed') {
