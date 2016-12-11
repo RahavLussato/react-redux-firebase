@@ -76,7 +76,7 @@ export const watchEvent = (firebase, dispatch, { type, path, populates, queryPar
     /* istanbul ignore next: is run by tests but doesn't show in coverage */
     q.on(e, snapshot => {
       let data = (e === 'child_removed') ? undefined : snapshot.val()
-      const resultPath = dest || (e === 'value') ? p : `${p}/${snapshot.key}`
+      const resultPath = dest || (e === 'value') ? p : p[p.length-1] == "/" ? `${p}${snapshot.key}` : `${p}/${snapshot.key}`
       const rootPath = dest || path
 
       if (dest && e !== 'child_removed') {
