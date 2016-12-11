@@ -109,6 +109,8 @@ exports.default = function () {
       retVal = retVal.deleteIn(['requesting'].concat(_toConsumableArray(pathArr)));
       retVal = retVal.deleteIn(['requested'].concat(_toConsumableArray(pathArr)));
 
+      return retVal;
+
     case SET_PROFILE:
       var profile = action.profile;
 
