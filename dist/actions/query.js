@@ -66,15 +66,14 @@ var watchEvent = exports.watchEvent = function watchEvent(firebase, dispatch, _r
     if (e === 'once') {
       return q.once('value').then(function (snapshot) {
         if (snapshot.val() !== null) {
-          data = {
-            _id: snapshot.key,
-            val: snapshot.val()
-          };
-
           dispatch({
             type: SET,
             path: path,
-            data: data
+            rootPath: path,
+            data: snapshot.val(),
+            timestamp: Date.now(),
+            requesting: false,
+            requested: true
           });
         }
         return snapshot;

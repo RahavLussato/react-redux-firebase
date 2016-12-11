@@ -100,10 +100,10 @@ export const getEventsFromInput = paths =>
       if (path.queryParams) {
         // append query params to path for queryId added in pathStrToObj
         strPath = `${strPath}#${path.queryParams.join('&')}`
-        path = Object.assign({}, pathStrToObj(strPath), path)
-      } else if (path.path.includes('#')) {
-          path = Object.assign({}, pathStrToObj(path.path))
       }
+
+      // Add all parameters that are missing (ones that exist will remain)
+      path = Object.assign({}, pathStrToObj(strPath), path)
       return [ path ]
     }
 

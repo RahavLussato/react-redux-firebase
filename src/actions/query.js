@@ -53,15 +53,14 @@ export const watchEvent = (firebase, dispatch, { type, path, populates, queryPar
       return q.once('value')
         .then(snapshot => {
           if (snapshot.val() !== null) {
-            data = {
-                _id: snapshot.key,
-                val: snapshot.val()
-            }
-
             dispatch({
               type: SET,
               path,
-              data
+              rootPath: path,
+              data: snapshot.val(),
+              timestamp: Date.now(),
+              requesting: false,
+              requested: true
             })
           }
           return snapshot
