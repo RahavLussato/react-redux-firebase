@@ -106,7 +106,7 @@ var pathArrToObj = exports.pathArrToObj = function pathArrToObj(path) {
     }
   }
   // if queryId does not exist, return original pathObj
-  return [pathObjFirst, pathObjAdded, pathObjRemoved, pathObjMoved, pathObjChanged];
+  return [pathObjAdded, pathObjRemoved, pathObjMoved, pathObjChanged];
 };
 
 /**
