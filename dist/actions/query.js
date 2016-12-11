@@ -47,26 +47,6 @@ var watchEvent = exports.watchEvent = function watchEvent(firebase, dispatch, _r
 
   (0, _query.setWatcher)(firebase, type, watchPath, queryId);
 
-  if (type === 'first_child') {
-    return firebase.database().ref().child(path).orderByKey().limitToFirst(1).once('value', function (snapshot) {
-      if (snapshot.val() === null) {
-        dispatch({
-          type: NO_VALUE,
-          timestamp: Date.now(),
-          requesting: false,
-          requested: true,
-          path: path
-        });
-      }
-      return snapshot;
-    }, function (err) {
-      dispatch({
-        type: ERROR,
-        payload: err
-      });
-    });
-  }
-
   var query = firebase.database().ref().child(path);
 
   if (isQuery) {
@@ -89,7 +69,11 @@ var watchEvent = exports.watchEvent = function watchEvent(firebase, dispatch, _r
           dispatch({
             type: SET,
             path: path,
-            data: snapshot.val()
+            rootPath: path,
+            data: snapshot.val(),
+            timestamp: Date.now(),
+            requesting: false,
+            requested: true
           });
         }
         return snapshot;

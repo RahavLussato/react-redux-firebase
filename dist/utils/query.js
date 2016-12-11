@@ -24,10 +24,12 @@ var setWatcher = exports.setWatcher = function setWatcher(firebase, event, path)
 
   var id = queryId || getQueryIdFromPath(path) || getWatchPath(event, path);
 
-  if (firebase._.watchers[id]) {
-    firebase._.watchers[id]++;
-  } else {
-    firebase._.watchers[id] = 1;
+  if (event != 'once') {
+    if (firebase._.watchers[id]) {
+      firebase._.watchers[id]++;
+    } else {
+      firebase._.watchers[id] = 1;
+    }
   }
 
   return firebase._.watchers[id];
@@ -62,7 +64,7 @@ var unsetWatcher = exports.unsetWatcher = function unsetWatcher(firebase, dispat
 
   if (firebase._.watchers[id] <= 1) {
     delete firebase._.watchers[id];
-    if (event !== 'first_child') {
+    if (event != 'once') {
       firebase.database().ref().child(path).off(event);
       dispatch({
         type: INIT_BY_PATH,

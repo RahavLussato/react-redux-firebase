@@ -33,31 +33,6 @@ export const watchEvent = (firebase, dispatch, { type, path, populates, queryPar
 
   setWatcher(firebase, type, watchPath, queryId)
 
-  if (type === 'first_child') {
-    return firebase.database()
-      .ref()
-      .child(path)
-      .orderByKey()
-      .limitToFirst(1)
-      .once('value', snapshot => {
-        if (snapshot.val() === null) {
-          dispatch({
-            type: NO_VALUE,
-            timestamp: Date.now(),
-            requesting : false,
-            requested : true,
-            path
-          })
-        }
-        return snapshot
-      }, (err) => {
-        dispatch({
-          type: ERROR,
-          payload: err
-        })
-      })
-  }
-
   let query = firebase.database().ref().child(path)
 
   if (isQuery) {
@@ -81,7 +56,11 @@ export const watchEvent = (firebase, dispatch, { type, path, populates, queryPar
             dispatch({
               type: SET,
               path,
-              data: snapshot.val()
+              rootPath: path,
+              data: snapshot.val(),
+              timestamp: Date.now(),
+              requesting: false,
+              requested: true
             })
           }
           return snapshot

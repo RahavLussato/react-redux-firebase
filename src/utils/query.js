@@ -15,11 +15,13 @@ export const getWatchPath = (event, path) =>
 export const setWatcher = (firebase, event, path, queryId = undefined) => {
     const id = queryId || getQueryIdFromPath(path) || getWatchPath(event, path)
 
-  if (firebase._.watchers[id]) {
-    firebase._.watchers[id]++
-  } else {
-    firebase._.watchers[id] = 1
-  }
+    if (event!='once'){
+        if (firebase._.watchers[id]) {
+            firebase._.watchers[id]++
+        } else {
+            firebase._.watchers[id] = 1
+        }
+    }
 
   return firebase._.watchers[id]
 }
@@ -49,13 +51,13 @@ export const unsetWatcher = (firebase, dispatch, event, path, queryId = undefine
 
   if (firebase._.watchers[id] <= 1) {
     delete firebase._.watchers[id]
-    if (event !== 'first_child') {
-      firebase.database().ref().child(path).off(event)
-      dispatch({
-        type: INIT_BY_PATH,
-        path
-      })
-    }
+      if (event!='once'){
+          firebase.database().ref().child(path).off(event)
+          dispatch({
+              type: INIT_BY_PATH,
+              path
+          })
+      }
   } else if (firebase._.watchers[id]) {
     firebase._.watchers[id]--
   }

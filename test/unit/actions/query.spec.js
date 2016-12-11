@@ -27,12 +27,6 @@ describe('Actions: Query', () => {
           expect(snap).to.be.an.object
         })
     }, 4000)
-    it('runs given first_child', () => {
-      return watchEvent(firebase, dispatch, { type: 'first_child', path: 'projects' }, 'projects')
-        .then((snap) => {
-          expect(snap).to.be.an.object
-        })
-    })
     it('runs value query', () => {
       expect(watchEvent(firebase, dispatch, { type: 'value', path: 'projects' }, 'projects'))
     })
