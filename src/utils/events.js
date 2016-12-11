@@ -32,52 +32,6 @@ export const pathStrToObj = (path) => {
   return pathObj
 }
 
-export const pathArrToObj = (path) => {
-    let pathStr = path[0];
-    let pathObjFirst = { pathStr, type: 'first_child', isQuery: false };
-    let pathObjAdded = { pathStr, type: 'child_added', isQuery: false };
-    let pathObjRemoved = { pathStr, type: 'child_removed', isQuery: false };
-    let pathObjMoved = { pathStr, type: 'child_moved', isQuery: false };
-    let pathObjChanged = { pathStr, type: 'child_changed', isQuery: false };
-
-    const queryId = getQueryIdFromPath(pathStr);
-    // If Query id exists split params from path
-    if (queryId) {
-        const pathArray = pathStr.split('#')
-        let options = {
-            queryId,
-            isQuery: true,
-            path: pathArray[0],
-            queryParams: pathArray[1].split('&')
-        }
-
-        pathObjFirst = Object.assign({}, pathObjFirst, options)
-        pathObjAdded = Object.assign({}, pathObjAdded, options)
-        pathObjRemoved = Object.assign({}, pathObjRemoved, options)
-        pathObjMoved = Object.assign({}, pathObjMoved, options)
-        pathObjChanged = Object.assign({}, pathObjChanged, options)
-
-        if (getPopulates(pathArray[1].split('&'))) {
-            pathObjFirst.populates = getPopulates(pathArray[1].split('&'))
-            pathObjFirst.queryParams = remove(pathArray[1].split('&'), (p) => p.indexOf('populate') === -1)
-
-            pathObjAdded.populates = getPopulates(pathArray[1].split('&'))
-            pathObjAdded.queryParams = remove(pathArray[1].split('&'), (p) => p.indexOf('populate') === -1)
-
-            pathObjRemoved.populates = getPopulates(pathArray[1].split('&'))
-            pathObjRemoved.queryParams = remove(pathArray[1].split('&'), (p) => p.indexOf('populate') === -1)
-
-            pathObjMoved.populates = getPopulates(pathArray[1].split('&'))
-            pathObjMoved.queryParams = remove(pathArray[1].split('&'), (p) => p.indexOf('populate') === -1)
-
-            pathObjChanged.populates = getPopulates(pathArray[1].split('&'))
-            pathObjChanged.queryParams = remove(pathArray[1].split('&'), (p) => p.indexOf('populate') === -1)
-        }
-    }
-    // if queryId does not exist, return original pathObj
-    return [pathObjFirst,pathObjAdded,pathObjRemoved,pathObjMoved,pathObjChanged]
-}
-
 /**
  * @description Convert watch path definition array to watch events
  * @param {Array} paths - Array of path strings, objects, and arrays to watch
@@ -92,7 +46,13 @@ export const getEventsFromInput = paths =>
     if (isArray(path)) {
       // TODO: Handle input other than array with string
       // TODO: Handle populates within array
-      return pathArrToObj(path)
+      return [
+        { type: 'first_child', path: path[0] },
+        { type: 'child_added', path: path[0] },
+        { type: 'child_removed', path: path[0] },
+        { type: 'child_moved', path: path[0] },
+        { type: 'child_changed', path: path[0] }
+      ]
     }
 
     if (isObject(path)) {
