@@ -61,7 +61,7 @@ var pathStrToObj = exports.pathStrToObj = function pathStrToObj(path) {
 
 var pathArrToObj = exports.pathArrToObj = function pathArrToObj(path) {
   var pathStr = path[0];
-  var pathObjFirst = { pathStr: pathStr, type: 'first_child', isQuery: false };
+
   var pathObjAdded = { pathStr: pathStr, type: 'child_added', isQuery: false };
   var pathObjRemoved = { pathStr: pathStr, type: 'child_removed', isQuery: false };
   var pathObjMoved = { pathStr: pathStr, type: 'child_moved', isQuery: false };
@@ -78,18 +78,12 @@ var pathArrToObj = exports.pathArrToObj = function pathArrToObj(path) {
       queryParams: pathArray[1].split('&')
     };
 
-    pathObjFirst = Object.assign({}, pathObjFirst, options);
     pathObjAdded = Object.assign({}, pathObjAdded, options);
     pathObjRemoved = Object.assign({}, pathObjRemoved, options);
     pathObjMoved = Object.assign({}, pathObjMoved, options);
     pathObjChanged = Object.assign({}, pathObjChanged, options);
 
     if ((0, _populate.getPopulates)(pathArray[1].split('&'))) {
-      pathObjFirst.populates = (0, _populate.getPopulates)(pathArray[1].split('&'));
-      pathObjFirst.queryParams = (0, _remove3.default)(pathArray[1].split('&'), function (p) {
-        return p.indexOf('populate') === -1;
-      });
-
       pathObjAdded.populates = (0, _populate.getPopulates)(pathArray[1].split('&'));
       pathObjAdded.queryParams = (0, _remove3.default)(pathArray[1].split('&'), function (p) {
         return p.indexOf('populate') === -1;

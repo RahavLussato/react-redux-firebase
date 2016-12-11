@@ -34,7 +34,7 @@ export const pathStrToObj = (path) => {
 
 export const pathArrToObj = (path) => {
     let pathStr = path[0];
-    let pathObjFirst = { pathStr, type: 'first_child', isQuery: false };
+
     let pathObjAdded = { pathStr, type: 'child_added', isQuery: false };
     let pathObjRemoved = { pathStr, type: 'child_removed', isQuery: false };
     let pathObjMoved = { pathStr, type: 'child_moved', isQuery: false };
@@ -51,16 +51,12 @@ export const pathArrToObj = (path) => {
             queryParams: pathArray[1].split('&')
         }
 
-        pathObjFirst = Object.assign({}, pathObjFirst, options)
         pathObjAdded = Object.assign({}, pathObjAdded, options)
         pathObjRemoved = Object.assign({}, pathObjRemoved, options)
         pathObjMoved = Object.assign({}, pathObjMoved, options)
         pathObjChanged = Object.assign({}, pathObjChanged, options)
 
         if (getPopulates(pathArray[1].split('&'))) {
-            pathObjFirst.populates = getPopulates(pathArray[1].split('&'))
-            pathObjFirst.queryParams = remove(pathArray[1].split('&'), (p) => p.indexOf('populate') === -1)
-
             pathObjAdded.populates = getPopulates(pathArray[1].split('&'))
             pathObjAdded.queryParams = remove(pathArray[1].split('&'), (p) => p.indexOf('populate') === -1)
 

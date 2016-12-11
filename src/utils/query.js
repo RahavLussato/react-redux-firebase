@@ -49,13 +49,11 @@ export const unsetWatcher = (firebase, dispatch, event, path, queryId = undefine
 
   if (firebase._.watchers[id] <= 1) {
     delete firebase._.watchers[id]
-    if (event !== 'first_child') {
       firebase.database().ref().child(path).off(event)
       dispatch({
-        type: INIT_BY_PATH,
-        path
+          type: INIT_BY_PATH,
+          path
       })
-    }
   } else if (firebase._.watchers[id]) {
     firebase._.watchers[id]--
   }
