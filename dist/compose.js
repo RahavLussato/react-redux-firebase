@@ -15,8 +15,6 @@ var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 var firebaseInstance = void 0;
 
 /**
@@ -150,7 +148,7 @@ exports.default = function (config, otherConfig) {
 
       var watchEvent = function watchEvent(type, path) {
         var event = (0, _utils.getEventsFromInput)([path])[0];
-        _actions.queryActions.watchEvent.apply(_actions.queryActions, [firebase, dispatch].concat(_toConsumableArray(event), [true]));
+        _actions.queryActions.watchEvent(firebase, dispatch, Object.assign({}, event, { type: type }), true);
       };
 
       var unWatchEvent = function unWatchEvent(eventName, eventPath) {
