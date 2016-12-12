@@ -13,7 +13,8 @@ export const getWatchPath = (event, path) =>
  * @param {String} queryId - Id of query
  */
 export const setWatcher = (firebase, event, path, queryId = undefined) => {
-    const id = queryId || getQueryIdFromPath(path) || getWatchPath(event, path)
+    const id = queryId+'_'+event || getQueryIdFromPath(path,event) || getWatchPath(event, path)
+
 
     if (event!='once'){
         if (firebase._.watchers[id]) {
@@ -34,8 +35,8 @@ export const setWatcher = (firebase, event, path, queryId = undefined) => {
  * @param {String} queryId - Id of query
  */
 export const getWatcherCount = (firebase, event, path, queryId = undefined) => {
-  const id = queryId || getQueryIdFromPath(path) || getWatchPath(event, path)
-  return firebase._.watchers[id]
+    const id = queryId+'_'+event || getQueryIdFromPath(path,event) || getWatchPath(event, path)
+    return firebase._.watchers[id]
 }
 
 /**
@@ -46,8 +47,8 @@ export const getWatcherCount = (firebase, event, path, queryId = undefined) => {
  * @param {String} queryId - Id of query
  */
 export const unsetWatcher = (firebase, dispatch, event, path, queryId = undefined) => {
-  const id = queryId || getQueryIdFromPath(path) || getWatchPath(event, path)
-  path = path.split('#')[0]
+    const id = queryId+'_'+event || getQueryIdFromPath(path,event) || getWatchPath(event, path)
+    path = path.split('#')[0]
 
   if (firebase._.watchers[id] <= 1) {
     delete firebase._.watchers[id]
@@ -67,7 +68,7 @@ export const unsetWatcher = (firebase, dispatch, event, path, queryId = undefine
  * @description Get query id from query path
  * @param {String} path - Path from which to get query id
  */
-export const getQueryIdFromPath = (path) => {
+export const getQueryIdFromPath = (path,event=undefined) => {
     const origPath = path
     let pathSplitted = path.split('#')
     path = pathSplitted[0]
@@ -81,7 +82,7 @@ export const getQueryIdFromPath = (path) => {
         }
     }).filter(q => q) : undefined
     return (queryId && queryId.length > 0)
-        ? queryId[0]
+        ? (event ? queryId[0]+'_'+event : queryId[0])
         : ((isQuery) ? origPath : undefined)
 }
 
