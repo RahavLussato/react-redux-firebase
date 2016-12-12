@@ -148,7 +148,7 @@ exports.default = function (config, otherConfig) {
 
       var watchEvent = function watchEvent(type, path) {
         var event = (0, _utils.getEventsFromInput)([path])[0];
-        _actions.queryActions.watchEvent(firebase, dispatch, Object.assign({}, event, { type: type }), true);
+        _actions.queryActions.watchEvent(firebase, dispatch, Object.assign({}, event, { type: type }), undefined);
       };
 
       var unWatchEvent = function unWatchEvent(eventName, eventPath) {

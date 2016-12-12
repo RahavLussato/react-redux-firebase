@@ -123,7 +123,7 @@ export default (config, otherConfig) => next =>
 
     const watchEvent = (type, path) => {
       let event = getEventsFromInput([path])[0];
-      queryActions.watchEvent(firebase, dispatch, Object.assign({},event,{type}), true)}
+      queryActions.watchEvent(firebase, dispatch, Object.assign({},event,{type}), undefined)}
 
     const unWatchEvent = (eventName, eventPath, queryId = undefined) =>
       queryActions.unWatchEvent(firebase, eventName, eventPath, queryId)
