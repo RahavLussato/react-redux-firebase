@@ -166,7 +166,7 @@ var watchEvents = exports.watchEvents = function watchEvents(firebase, dispatch,
  */
 var unWatchEvents = exports.unWatchEvents = function unWatchEvents(firebase, dispatch, events) {
   return events.forEach(function (event) {
-    return unWatchEvent(firebase, dispatch, event.type, event.path);
+    return unWatchEvent(firebase, dispatch, event.type, event.path, event.queryId);
   });
 };
 
