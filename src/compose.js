@@ -1,5 +1,6 @@
 import Firebase from 'firebase'
 import { authActions, queryActions, storageActions } from './actions'
+import { getEventsFromInput } from './utils'
 let firebaseInstance
 
 /**
@@ -154,6 +155,7 @@ export default (config, otherConfig) => next =>
       resetPassword,
       watchEvent,
       unWatchEvent,
+      getEventsFromInput,
       storage: () => Firebase.storage()
     }
 

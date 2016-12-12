@@ -11,6 +11,8 @@ var _firebase2 = _interopRequireDefault(_firebase);
 
 var _actions = require('./actions');
 
+var _utils = require('./utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var firebaseInstance = void 0;
@@ -185,6 +187,7 @@ exports.default = function (config, otherConfig) {
         resetPassword: resetPassword,
         watchEvent: watchEvent,
         unWatchEvent: unWatchEvent,
+        getEventsFromInput: _utils.getEventsFromInput,
         storage: function storage() {
           return _firebase2.default.storage();
         }
