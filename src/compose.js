@@ -121,8 +121,9 @@ export default (config, otherConfig) => next =>
           return ref.child(path).set(value, onComplete)
         })
 
-    const watchEvent = (type, path) =>
-      queryActions.watchEvent(firebase, dispatch, { type, path }, true)
+    const watchEvent = (type, path) => {
+      let event = getEventsFromInput([path])[0];
+      queryActions.watchEvent(firebase, dispatch, ...event , true)}
 
     const unWatchEvent = (eventName, eventPath, queryId = undefined) =>
       queryActions.unWatchEvent(firebase, eventName, eventPath, queryId)
@@ -155,7 +156,6 @@ export default (config, otherConfig) => next =>
       resetPassword,
       watchEvent,
       unWatchEvent,
-      getEventsFromInput,
       storage: () => Firebase.storage()
     }
 

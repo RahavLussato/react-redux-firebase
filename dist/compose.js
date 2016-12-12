@@ -15,6 +15,8 @@ var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var firebaseInstance = void 0;
 
 /**
@@ -147,7 +149,8 @@ exports.default = function (config, otherConfig) {
       };
 
       var watchEvent = function watchEvent(type, path) {
-        return _actions.queryActions.watchEvent(firebase, dispatch, { type: type, path: path }, true);
+        var event = (0, _utils.getEventsFromInput)([path])[0];
+        _actions.queryActions.watchEvent.apply(_actions.queryActions, [firebase, dispatch].concat(_toConsumableArray(event), [true]));
       };
 
       var unWatchEvent = function unWatchEvent(eventName, eventPath) {
@@ -187,7 +190,6 @@ exports.default = function (config, otherConfig) {
         resetPassword: resetPassword,
         watchEvent: watchEvent,
         unWatchEvent: unWatchEvent,
-        getEventsFromInput: _utils.getEventsFromInput,
         storage: function storage() {
           return _firebase2.default.storage();
         }
